@@ -1,27 +1,23 @@
 var ethers = require("ethers");
-var url = "wss://kovan.infura.io/ws/v3/0976d94a7cfb48bfacb9c001c1a0b9a9";
-const Cerebro =  require('./build/contracts/Cerebro.json')
+//const Cerebro =  require('./build/contracts/Cerebro.json')
 const HDWalletProvider = require('@truffle/hdwallet-provider')
-const fs = require('fs');
-const Web3 = require("web3");
+//const fs = require('fs');
+//const Web3 = require("web3");
 const abiDecoder = require('abi-decoder')
+require('dotenv').config()
 
 const {abi} = require('./uni_abi.js')
 
-const mnemonic = fs.readFileSync(".secret").toString().trim()
-//const url2 = "https://kovan.infura.io/v3/0976d94a7cfb48bfacb9c001c1a0b9a9"
+//If you want to send a transaction you need the mnemonic. This can be set up on a .secret file
+//const mnemonic = fs.readFileSync(".secret").toString().trim()
 
-//
-const url2 = "wss://mainnet.infura.io/ws/v3/0976d94a7cfb48bfacb9c001c1a0b9a9"
-//const address = '0xaAE37f0B828F56b40822EA62745Da15FB0854E92'
+const url = process.env.INFURA_ENDPOINT
 
 
 
 var searcher = function () {
-  var customWsProvider = new ethers.providers.WebSocketProvider(url2);
+  var customWsProvider = new ethers.providers.WebSocketProvider(url);
 
-  let txs
-  
   customWsProvider.on("pending", async (tx) => {
     transaction = await customWsProvider.getTransaction(tx)
     try {
@@ -34,7 +30,6 @@ var searcher = function () {
         let transactionData = parseTx(transaction.data)
 
         console.log(transactionData[0])
-        //console.log(transactionData[1])
 
         if(transactionData[0] == 'swapExactETHForTokens') {
           console.log(transaction.hash)
@@ -43,7 +38,7 @@ var searcher = function () {
           process.exit()
         }
 
-
+       //If you want to send a transaction on 
 
         //const provider = new HDWalletProvider(mnemonic, url2, 2)
         //const web3 = new Web3(provider)
@@ -94,9 +89,6 @@ function parseTx(input) {
   return [method, params]
 }
 
-
-
-//let abiData = init();
 
 abiDecoder.addABI(abi);
 
