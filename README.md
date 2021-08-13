@@ -8,7 +8,7 @@ then called method and analyze the parameters.
 ### How to use it:
 
 There are many files to try different things, but the main one we should focus on is the pending.js file.
-First, you need to set up your Infura endpoint url (pay attention the connection was established via websocket).
+First, you need to set up your Infura endpoint url (pay attention the connection was established via websocket) in a .env file.
 Second run: 
 
 ```{js}
